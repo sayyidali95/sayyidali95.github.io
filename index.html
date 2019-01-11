@@ -72,9 +72,9 @@ layout: default
         controller.objects = [];
         controller.scene = scene;
         controller.gui = gui;
-        controller.velocityX = 0.001;
-        controller.velocityY = 0.002;
-        controller.velocityZ = 0.005;
+        controller.velocityX = 0.01;
+        controller.velocityY = 0.02;
+        controller.velocityZ = 0.05;
 
         gui.add(controller, 'velocityX', - 0.1, 0.1).listen();
         gui.add(controller, 'velocityY', - 0.1, 0.1).listen();
