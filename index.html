@@ -49,13 +49,13 @@ layout: default
     </div>
 
     <script type="text/javascript" src="dat.gui.js"></script>
-    <script src="js/three.min.js"></script>
+    <script src="https://threejs.org/build/three.js"></script>
     <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
     <script src="js/loaders/GLTFLoader.js"></script>
     <script>
 
         //set up scene
-        const scene = new THREE.Scene();
+        var scene = new THREE.Scene();
         var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         var raycaster = new THREE.Raycaster();
         var canvasHolder = document.getElementById('canvas-holder');
