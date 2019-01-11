@@ -44,6 +44,7 @@ layout: default
             top: 0;
         }
     </style>
+    
     <div id='canvas-holder' style="position: relative; width: inherit;">
         <div id="dat-gui-holder" style="position: absolute; top: 0em; right: 0em; z-index: 1;"></div>
     </div>
@@ -58,10 +59,16 @@ layout: default
         var scene = new THREE.Scene();
         var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         var raycaster = new THREE.Raycaster();
+
+        //add dat gui interface
+        var gui = new dat.GUI({ autoPlace: false });
+        document.getElementById('dat-gui-holder').appendChild(gui.domElement);
+
+        //add canvas holder div and put canvas on spot on the document
         var canvasHolder = document.getElementById('canvas-holder');
         // Apply your desired aspect ratio
         var width = canvasHolder.clientWidth;
-        var height = width * 0.8;
+        var height = width;
         canvasHolder.clientHeight = height;
         renderer = new THREE.WebGLRenderer();
         renderer.setSize(width, height);
@@ -72,10 +79,8 @@ layout: default
 
         //add camera controls
         var controls = new THREE.OrbitControls(camera, renderer.domElement);
-        //add scene controller and gui
-        var gui = new dat.GUI({ autoPlace: false });
+        //add scene controller
         var controller = new THREE.Object3D();
-        document.getElementById('dat-gui-holder').appendChild(gui.domElement);
         controller.objects = [];
         controller.scene = scene;
         controller.gui = gui;
