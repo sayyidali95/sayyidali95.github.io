@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.106
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{30E959A7-21EA-47B4-BE0F-D6D0E565629B}"
+	ProjectSection(SolutionItems) = preProject
+		home.html = home.html
+		package-lock.json = package-lock.json
+		package.json = package.json
+		Js\three.js = Js\three.js
+		webpack.config.js = webpack.config.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{638D14DD-FE61-4845-A426-C2D8D19A1C96}"
+	ProjectSection(SolutionItems) = preProject
+		src\index.js = src\index.js
+		src\main.js = src\main.js
+		src\people.js = src\people.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dist", "dist", "{810CF18B-0F6E-4665-AD0B-48BA68313743}"
+	ProjectSection(SolutionItems) = preProject
+		dist\index.html = dist\index.html
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{638D14DD-FE61-4845-A426-C2D8D19A1C96} = {30E959A7-21EA-47B4-BE0F-D6D0E565629B}
+		{810CF18B-0F6E-4665-AD0B-48BA68313743} = {30E959A7-21EA-47B4-BE0F-D6D0E565629B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AC571C3B-441A-4DD6-BEB5-2218FD0E12A0}
+	EndGlobalSection
+EndGlobal

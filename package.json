@@ -1,0 +1,29 @@
+{
+  "name": "3JSTest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "three": "^0.98.0"
+  },
+  "devDependencies": {
+    "lodash-es": "^4.17.11",
+    "webpack": "^4.26.1",
+    "webpack-cli": "^3.1.2"
+  },
+  "scripts": {
+    "develop": "webpack --mode development --watch",
+    "build": "webpack --mode production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sayyidali95/3JS-Test.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sayyidali95/3JS-Test/issues"
+  },
+  "homepage": "https://github.com/sayyidali95/3JS-Test#readme"
+}
