@@ -37,11 +37,15 @@ layout: default
             writing-mode: bt-lr; /* IE */
             -webkit-appearance: slider-vertical; /* WebKit */
         }
+        canvas {
+            width: 100%;
+            height: 100%
+        }
     </style>
     <script type="text/javascript" src="dat.gui.js"></script>
-    <script src="/js/three.min.js"></script>
+    <script src="js/three.min.js"></script>
     <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
-    <script src="/js/loaders/GLTFLoader.js"></script>
+    <script src="js/loaders/GLTFLoader.js"></script>
     <script type="text/javascript">
 
         //set up scene
@@ -55,11 +59,10 @@ layout: default
         document.body.appendChild(renderer.domElement);
 
 
-
         //add camera controls
         var controls = new THREE.OrbitControls(camera, renderer.domElement);
         //add scene controller and gui
-        const gui = new dat.GUI();
+        var gui = new dat.GUI();
         var controller = new THREE.Object3D();
         controller.objects = [];
         controller.scene = scene;
