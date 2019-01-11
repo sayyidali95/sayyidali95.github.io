@@ -37,11 +37,17 @@ layout: default
             writing-mode: bt-lr; /* IE */
             -webkit-appearance: slider-vertical; /* WebKit */
         }
+
         canvas {
-            width: 100%;
-            height: 100%
+            width: inherit;
+            position: relative;
+            top: 0;
         }
     </style>
+    <div id='canvas-holder' style="position: relative; width: inherit;">
+        <div id="dat-gui-holder" style="position: absolute; top: 0em; right: 0em; z-index: 1;"></div>
+    </div>
+
     <script type="text/javascript" src="dat.gui.js"></script>
     <script src="js/three.min.js"></script>
     <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
@@ -52,11 +58,16 @@ layout: default
         const scene = new THREE.Scene();
         var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         var raycaster = new THREE.Raycaster();
-
-        var renderer = new THREE.WebGLRenderer();
-        renderer.setSize(window.innerWidth, window.innerHeight);
+        var canvasHolder = document.getElementById('canvas-holder');
+        // Apply your desired aspect ratio
+        var width = canvasHolder.clientWidth;
+        var height = width * 0.8;
+        canvasHolder.clientHeight = height;
+        renderer = new THREE.WebGLRenderer();
+        renderer.setSize(width, height);
         renderer.setClearColor(0x87cefa, 1);
-        document.body.appendChild(renderer.domElement);
+        canvasHolder.appendChild(renderer.domElement);
+
 
 
         //add camera controls
@@ -178,7 +189,7 @@ layout: default
 
         animate();
     </script>
-   
+
 
 
 
