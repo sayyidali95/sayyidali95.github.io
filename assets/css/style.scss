@@ -2,3 +2,20 @@
 ---
 
 @import "{{ site.theme }}";
+
+
+
+
+
+body {
+    overflow: auto;
+    margin: 35px;
+    padding: 0;
+}
+
+canvas {
+    width: inherit;
+    position: relative;
+    top: 0;
+}
+
