@@ -100,7 +100,7 @@ layout: default
                 var wireframeMat = new THREE.MeshBasicMaterial({ wireframe: true, color: 0x0000ff });
                 var  player1=  new THREE.Object3D();
                 var cube = new THREE.Mesh(geometry, material);
-                var player1 = new THREE.Mesh(geometry, material);
+                 var player1 = new THREE.Mesh(geometry, material);
                 var collisionCube = new THREE.Mesh(boundingBox, wireframeMat);
                 var clock = new THREE.Clock();
                 var boundsRadius = 5;
@@ -112,7 +112,7 @@ layout: default
                 scene.add(cube);
                 scene.add(collisionCube);
                 scene.add(player1);
-
+                console.log(player1.children);
                 camera.position.z = 15;
 
                 // create a point light
@@ -168,7 +168,7 @@ layout: default
                     cube.rotateZ(0.01);
                     //cube.position.x = player.position.x;
                     var vector = player1.position;
-                    //cube.position.x = 0;
+                    cube.position.set(player1.position.x, player1.position.y, player1.position.z);
                     //pointLight.position.set(0,0,0);
                     pointLight.intensity = 20 + 2 * scaler;
                     cube.scale = 1;
