@@ -9,19 +9,26 @@
 
 body {
     overflow: auto;
-    margin: 35px;
+    // margin: 0.1rem;
     padding: 0;
 }
-
+.wrapper{
+    margin: 0;
+}
 canvas {
-    width: inherit;
+    width:80vw;
+    max-width: 650px;
     position: relative;
     top: 0;
 }
 
+.content-main{
+    width: 90vw;
+}
+
 .sidenav {
     height: 100%;
-    width: 160px;
+    width: 0px;
     position: fixed;
     z-index: 1;
     top: 0;
@@ -42,3 +49,40 @@ canvas {
 .sidenav a:hover {
     color: greenyellow;
 }
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 50px;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+.openbtn {
+  position: fixed;
+  top: 50px;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 10;
+  background-color: #111;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+}
+
+.openbtn:hover {
+  background-color: #444;
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+.content-main {
+  transition: margin-left .5s; /* If you want a transition effect */
+  padding: 0.1rem;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+

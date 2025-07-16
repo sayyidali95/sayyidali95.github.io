@@ -15,210 +15,228 @@ layout: default
     </ul>
 
 
-    <div class="sidenav">
+    <div id="sidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
         <h1>Project Links</h1>
         <a href="#threeJS">ThreeJS Project</a>
         <a href="#unity">Unity</a>
         <a href="#myEngines">My Engines</a>
     </div>
+    <div id="main" class="content-main">
+        <button class="openbtn" onclick="openNav()">☰ Open Sidebar</button>
+        <div id="threeJS">
+            <h1>ThreeJS Test Project</h1>
+            <p>
+                This is a small project in which I made a sphere collide with a bounding box and
+                change direction accordingly.
+            </p>
 
-    <div id="threeJS">
-        <h1>ThreeJS Test Project</h1>
-        <p>
-            This is a small project in which I made a sphere collide with a bounding box and
-            change direction accordingly.
-        </p>
+            <p>
+                Use the mouse to move the camera and change the velocities with the sliders.
+            </p>
 
-        <p>
-            Use the mouse to move the camera and change the velocities with the sliders.
-        </p>
+            <div id='canvas-holder' style="position: relative; width: inherit;">
+                <div id="dat-gui-holder" style="position: absolute; top: 0em; right: 0em; z-index: 1;"></div>
+            </div>
 
-        <div id='canvas-holder' style="position: relative; width: inherit;">
-            <div id="dat-gui-holder" style="position: absolute; top: 0em; right: 0em; z-index: 1;"></div>
+            <script type="text/javascript" src="js/dat.gui.js"></script>
+            <!-- <script src="https://threejs.org/build/three.js"></script>
+            <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script> -->
+            <script src="https://cdn.jsdelivr.net/npm/three@0.122.0/build/three.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/three@0.122.0/examples/js/controls/OrbitControls.min.js"></script>
+            <script src="https://cdn.rawgit.com/mrdoob/three.js/master/examples/js/loaders/GLTFLoader.js"></script>
+            <script>
+
+                //set up scene
+                var scene = new THREE.Scene();
+                var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                var raycaster = new THREE.Raycaster();
+
+                //add dat gui interface
+                var gui = new dat.GUI({ autoPlace: false });
+                document.getElementById('dat-gui-holder').appendChild(gui.domElement);
+
+                //add canvas holder div and put canvas on spot on the document
+                var canvasHolder = document.getElementById('canvas-holder');
+                // Apply your desired aspect ratio
+                var width = canvasHolder.clientWidth;
+                var height = width * 0.8;
+                canvasHolder.clientHeight = height;
+                renderer = new THREE.WebGLRenderer();
+                renderer.setSize(width, height);
+                renderer.setClearColor(0x87cefa, 1);
+                canvasHolder.appendChild(renderer.domElement);
+
+
+
+                //add camera controls
+                var controls = new THREE.OrbitControls(camera, renderer.domElement);
+                //add scene controller
+                var controller = new THREE.Object3D();
+                controller.objects = [];
+                controller.scene = scene;
+                controller.gui = gui;
+                controller.velocityX = 0.01;
+                controller.velocityY = 0.02;
+                controller.velocityZ = 0.05;
+
+                gui.add(controller, 'velocityX', - 0.1, 0.1).listen();
+                gui.add(controller, 'velocityY', - 0.1, 0.1).listen();
+                gui.add(controller, 'velocityZ', - 0.1, 0.1).listen();
+
+                //Add cube
+                var geometry = new THREE.SphereGeometry(1, 32, 32);
+                var boundingBox = new THREE.BoxGeometry(10, 10, 10);
+                var material = new THREE.MeshPhongMaterial({ color: 0xff0000 });
+                var wireframeMat = new THREE.MeshBasicMaterial({ wireframe: true, color: 0x0000ff });
+                var cube = new THREE.Mesh(geometry, material);
+                var collisionCube = new THREE.Mesh(boundingBox, wireframeMat);
+                var clock = new THREE.Clock();
+                var boundsRadius = 5;
+
+                //var model;
+                scene.add(cube);
+                scene.add(collisionCube);
+
+                camera.position.z = 15;
+
+                // create a point light
+                const pointLight =
+                    new THREE.PointLight(0xFFFFFF);
+
+
+                // set its position
+                pointLight.position.x = 10;
+                pointLight.position.y = 50;
+                pointLight.position.z = 200;
+                pointLight.intensity = 20;
+
+                // add to the scene
+                scene.add(pointLight);
+
+
+                //point light 2
+                const pointLight2 =
+                    new THREE.PointLight(0xFFFFFF);
+                pointLight2.intensity = 15;
+                scene.add(pointLight2);
+
+                var directionalLight = new THREE.DirectionalLight(0xffffff);
+                directionalLight.position.set(1, 1, 1).normalize();
+                scene.add(directionalLight);
+
+
+
+
+
+
+
+                function onWindowResize() {
+                    camera.aspect = window.innerWidth / window.innerHeight;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(window.innerWidth, window.innerHeight);
+                    render();
+                }
+
+                var animate = function () {
+                    requestAnimationFrame(animate);
+                    controls.update();
+                    scene.updateMatrixWorld();
+                    var scaler = Math.sin(clock.getElapsedTime());
+                    //cube.rotation.x += 0.01;
+                    //cube.rotation.y += scaler;
+                    cube.translateX(controller.velocityX);
+                    cube.translateY(controller.velocityY);
+                    cube.translateZ(controller.velocityZ);
+                    var vector = cube.getWorldPosition();
+                    //cube.position.x = 0;
+                    //pointLight.position.set(0,0,0);
+                    pointLight.intensity = 20 + 2 * scaler;
+                    cube.scale = 1;
+
+                    //make collisions for cube
+                    //console.log(vector);
+                    if (vector.x + .5 > boundsRadius
+                        || -boundsRadius > vector.x - .5) {
+                        controller.velocityX *= -1;
+                    }
+                    if (vector.y + .5 > boundsRadius
+                        || -boundsRadius > vector.y - .5) {
+                        controller.velocityY *= -1;
+                    }
+                    if (vector.z + .5 > boundsRadius
+                        || -boundsRadius > vector.z - .5) {
+                        controller.velocityZ *= -1;
+                    }
+                    //if (vertex.position.y > collisionCube.innerHeight / 2
+                    //   || vertex.position.y > -collisionCube.innerHeight / 2) {
+                    //    velocityY *= -1;
+                    //}
+
+
+
+                    renderer.render(scene, camera);
+                    //stats.update();
+                };
+
+
+
+
+                animate();
+            </script>
         </div>
 
-        <script type="text/javascript" src="js/dat.gui.js"></script>
-        <!-- <script src="https://threejs.org/build/three.js"></script>
-        <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script> -->
-        <script src="https://cdn.jsdelivr.net/npm/three@0.122.0/build/three.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/three@0.122.0/examples/js/controls/OrbitControls.min.js"></script>
-        <script src="https://cdn.rawgit.com/mrdoob/three.js/master/examples/js/loaders/GLTFLoader.js"></script>
-        <script>
+        <div id="unity">
+            <h1>Unity Projects</h1>
 
-            //set up scene
-            var scene = new THREE.Scene();
-            var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            var raycaster = new THREE.Raycaster();
+            <h2>Mystic Slash Prototype1</h2>
+            <p>This is a demo of an action game I made personally in Unity with my own creations and animations from Blender and Substance Designer</p>
+            <p>This game was made using Unity C# and is a Solo project for mine that Started in May and Ended in July</p>
 
-            //add dat gui interface
-            var gui = new dat.GUI({ autoPlace: false });
-            document.getElementById('dat-gui-holder').appendChild(gui.domElement);
+            <p>Particles and water textures are from Unity's standard assets.</p>
+            <p>To download this demo click the link below</p>
+            <a href="https://drive.google.com/open?id=1x4WbmqU3KmNo7y6zysmP_4xhEBB_DGOi">Click Here to Download</a>
 
-            //add canvas holder div and put canvas on spot on the document
-            var canvasHolder = document.getElementById('canvas-holder');
-            // Apply your desired aspect ratio
-            var width = canvasHolder.clientWidth;
-            var height = width * 0.8;
-            canvasHolder.clientHeight = height;
-            renderer = new THREE.WebGLRenderer();
-            renderer.setSize(width, height);
-            renderer.setClearColor(0x87cefa, 1);
-            canvasHolder.appendChild(renderer.domElement);
+
+        </div>
+
+        <div id="myEngines">
+            <h1>My Engines</h1>
+
+            <h2>Sprinting Slash 2D Game</h2>
+
+            <img src="images/level editor preview.png" alt="Sprinting Slash Image">
+            <p>This is my 2D game using Capcom's Megaman Zero 3 Sprite(property of Capcom), 
+            It was my attempt to replicate features of the game with my own twist using SDL as a library and C as A programming language.
+            This was a fun project to make because it is when I really understood how the game loop worked alongside collision box behanvior</p>
+            <a href="https://github.com/sma69/SprintingSlash/tree/final">Click here to see the source code</a>
 
 
 
-            //add camera controls
-            var controls = new THREE.OrbitControls(camera, renderer.domElement);
-            //add scene controller
-            var controller = new THREE.Object3D();
-            controller.objects = [];
-            controller.scene = scene;
-            controller.gui = gui;
-            controller.velocityX = 0.01;
-            controller.velocityY = 0.02;
-            controller.velocityZ = 0.05;
-
-            gui.add(controller, 'velocityX', - 0.1, 0.1).listen();
-            gui.add(controller, 'velocityY', - 0.1, 0.1).listen();
-            gui.add(controller, 'velocityZ', - 0.1, 0.1).listen();
-
-            //Add cube
-            var geometry = new THREE.SphereGeometry(1, 32, 32);
-            var boundingBox = new THREE.BoxGeometry(10, 10, 10);
-            var material = new THREE.MeshPhongMaterial({ color: 0xff0000 });
-            var wireframeMat = new THREE.MeshBasicMaterial({ wireframe: true, color: 0x0000ff });
-            var cube = new THREE.Mesh(geometry, material);
-            var collisionCube = new THREE.Mesh(boundingBox, wireframeMat);
-            var clock = new THREE.Clock();
-            var boundsRadius = 5;
-
-            //var model;
-            scene.add(cube);
-            scene.add(collisionCube);
-
-            camera.position.z = 15;
-
-            // create a point light
-            const pointLight =
-                new THREE.PointLight(0xFFFFFF);
+        </div>
 
 
-            // set its position
-            pointLight.position.x = 10;
-            pointLight.position.y = 50;
-            pointLight.position.z = 200;
-            pointLight.intensity = 20;
-
-            // add to the scene
-            scene.add(pointLight);
+        <div id="3DScenes">
 
 
-            //point light 2
-            const pointLight2 =
-                new THREE.PointLight(0xFFFFFF);
-            pointLight2.intensity = 15;
-            scene.add(pointLight2);
-
-            var directionalLight = new THREE.DirectionalLight(0xffffff);
-            directionalLight.position.set(1, 1, 1).normalize();
-            scene.add(directionalLight);
-
-
-
-
-
-
-
-            function onWindowResize() {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
-                render();
-            }
-
-            var animate = function () {
-                requestAnimationFrame(animate);
-                controls.update();
-                scene.updateMatrixWorld();
-                var scaler = Math.sin(clock.getElapsedTime());
-                //cube.rotation.x += 0.01;
-                //cube.rotation.y += scaler;
-                cube.translateX(controller.velocityX);
-                cube.translateY(controller.velocityY);
-                cube.translateZ(controller.velocityZ);
-                var vector = cube.getWorldPosition();
-                //cube.position.x = 0;
-                //pointLight.position.set(0,0,0);
-                pointLight.intensity = 20 + 2 * scaler;
-                cube.scale = 1;
-
-                //make collisions for cube
-                //console.log(vector);
-                if (vector.x + .5 > boundsRadius
-                    || -boundsRadius > vector.x - .5) {
-                    controller.velocityX *= -1;
-                }
-                if (vector.y + .5 > boundsRadius
-                    || -boundsRadius > vector.y - .5) {
-                    controller.velocityY *= -1;
-                }
-                if (vector.z + .5 > boundsRadius
-                    || -boundsRadius > vector.z - .5) {
-                    controller.velocityZ *= -1;
-                }
-                //if (vertex.position.y > collisionCube.innerHeight / 2
-                //   || vertex.position.y > -collisionCube.innerHeight / 2) {
-                //    velocityY *= -1;
-                //}
-
-
-
-                renderer.render(scene, camera);
-                //stats.update();
-            };
-
-
-
-
-            animate();
-        </script>
+        </div>
     </div>
 
-    <div id="unity">
-        <h1>Unity Projects</h1>
+    <script>
+    function openNav() {
+        if(document.getElementById("sidenav").style.width == "250px"){
+            closeNav();
+            return true;
+        }
+        document.getElementById("sidenav").style.width = "250px";
+        document.getElementById("main").style.marginLeft = "250px";
+    }
 
-        <h2>Mystic Slash Prototype1</h2>
-        <p>This is a demo of an action game I made personally in Unity with my own creations and animations from Blender and Substance Designer</p>
-        <p>This game was made using Unity C# and is a Solo project for mine that Started in May and Ended in July</p>
-
-        <p>Particles and water textures are from Unity's standard assets.</p>
-        <p>To download this demo click the link below</p>
-        <a href="https://drive.google.com/open?id=1x4WbmqU3KmNo7y6zysmP_4xhEBB_DGOi">Click Here to Download</a>
-
-
-    </div>
-
-    <div id="myEngines">
-        <h1>My Engines</h1>
-
-        <h2>Sprinting Slash 2D Game</h2>
-
-        <img src="images/level editor preview.png" alt="Sprinting Slash Image">
-        <p>This is my 2D game using Capcom's Megaman Zero 3 Sprite(property of Capcom), 
-         It was my attempt to replicate features of the game with my own twist using SDL as a library and C as A programming language.
-         This was a fun project to make because it is when I really understood how the game loop worked alongside collision box behanvior</p>
-        <a href="https://github.com/sma69/SprintingSlash/tree/final">Click here to see the source code</a>
-
-
-
-    </div>
-
-
-    <div id="3DScenes">
-
-
-    </div>
-
+    function closeNav() {
+        document.getElementById("sidenav").style.width = "0";
+        document.getElementById("main").style.marginLeft= "0";
+    }
+    </script>
 </body>
 
 </html>
