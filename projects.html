@@ -63,6 +63,7 @@ layout: default
                 var height = width * 0.8;
                 canvasHolder.clientHeight = height;
                 renderer = new THREE.WebGLRenderer();
+                const loader = new THREE.TextureLoader();
                 renderer.setSize(width, height);
                 renderer.setClearColor(0x87cefa, 1);
                 canvasHolder.appendChild(renderer.domElement);
@@ -87,16 +88,30 @@ layout: default
                 //Add cube
                 var geometry = new THREE.SphereGeometry(1, 32, 32);
                 var boundingBox = new THREE.BoxGeometry(10, 10, 10);
-                var material = new THREE.MeshPhongMaterial({ color: 0xff0000 });
+                //load image
+                const cubeTexture = loader.load('assets/images/blacksStripes.png')
+                
+                var material = new THREE.MeshPhongMaterial({ color: 0xcc0000,
+                    map: cubeTexture,
+                    shininess: 150,
+                    side: THREE.DoubleSide,
+                    //emissive: 'red'
+                 });
                 var wireframeMat = new THREE.MeshBasicMaterial({ wireframe: true, color: 0x0000ff });
+                var  player1=  new THREE.Object3D();
                 var cube = new THREE.Mesh(geometry, material);
+                var player1 = new THREE.Mesh(geometry, material);
                 var collisionCube = new THREE.Mesh(boundingBox, wireframeMat);
                 var clock = new THREE.Clock();
                 var boundsRadius = 5;
 
+                //add propertiee to player
+                player1.add(cube);
+
                 //var model;
                 scene.add(cube);
                 scene.add(collisionCube);
+                scene.add(player1);
 
                 camera.position.z = 15;
 
@@ -145,15 +160,19 @@ layout: default
                     var scaler = Math.sin(clock.getElapsedTime());
                     //cube.rotation.x += 0.01;
                     //cube.rotation.y += scaler;
-                    cube.translateX(controller.velocityX);
-                    cube.translateY(controller.velocityY);
-                    cube.translateZ(controller.velocityZ);
-                    var vector = cube.getWorldPosition();
+                    player1.translateX(controller.velocityX);
+                    player1.translateY(controller.velocityY);
+                    player1.translateZ(controller.velocityZ);
+                    cube.rotateX(0.01);
+                    cube.rotateY(0.01);
+                    cube.rotateZ(0.01);
+                    //cube.position.x = player.position.x;
+                    var vector = player1.position;
                     //cube.position.x = 0;
                     //pointLight.position.set(0,0,0);
                     pointLight.intensity = 20 + 2 * scaler;
                     cube.scale = 1;
-
+                    
                     //make collisions for cube
                     //console.log(vector);
                     if (vector.x + .5 > boundsRadius
@@ -172,8 +191,8 @@ layout: default
                     //   || vertex.position.y > -collisionCube.innerHeight / 2) {
                     //    velocityY *= -1;
                     //}
-
-
+                    player1.updateMatrixWorld()
+                    cube.updateMatrixWorld();
 
                     renderer.render(scene, camera);
                     //stats.update();

@@ -13,17 +13,20 @@ body {
     padding: 0;
 }
 .wrapper{
-    margin: 0;
+    margin: auto;
+    //max-width: 90vw;
 }
-canvas {
+.canvas-holder{
     width:80vw;
     max-width: 650px;
+    max-height: 650px;
     position: relative;
     top: 0;
 }
 
 .content-main{
-    width: 90vw;
+    max-width: 90vw;
+    margin: auto;
 }
 
 .sidenav {
