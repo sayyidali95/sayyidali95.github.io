@@ -63,7 +63,7 @@ layout: default
                 var height = width * 0.8;
                 canvasHolder.clientHeight = height;
                 renderer = new THREE.WebGLRenderer();
-                const loader = new THREE.TextureLoader();
+                const textureLoader = new THREE.TextureLoader();
                 renderer.setSize(width, height);
                 renderer.setClearColor(0x87cefa, 1);
                 canvasHolder.appendChild(renderer.domElement);
@@ -76,26 +76,7 @@ layout: default
                 controller.objects = [];
                 controller.scene = scene;
 
-                // modelLoader.load(
-                //     '/assets/models/WindEffectsMaya.glb',
-                //     function (gltf) {
-                //         // Add the loaded scene to your Three.js scene
-                //         scene.add(gltf.scene);
 
-                //         // Access other parts of the GLTF model if needed
-                //         // gltf.animations; // Array<THREE.AnimationClip>
-                //         // gltf.cameras;    // Array<THREE.Camera>
-                //         // gltf.asset;      // Object
-                //     },
-                //     function (xhr) {
-                //         // Log loading progress
-                //         console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-                //     },
-                //     function (error) {
-                //         // Handle loading errors
-                //         console.error('An error happened', error);
-                //     }
-                // );
 
                 controller.gui = gui;
                 controller.velocityX = 0.01;
@@ -110,7 +91,7 @@ layout: default
                 var geometry = new THREE.SphereGeometry(1, 32, 32);
                 var boundingBox = new THREE.BoxGeometry(10, 10, 10);
                 //load image
-                const cubeTexture = loader.load('assets/images/blacksStripes.png')
+                const cubeTexture = textureLoader.load('assets/images/blacksStripes.png')
                 
                 var material = new THREE.MeshPhongMaterial({ color: 0xcc0000,
                     map: cubeTexture,
@@ -125,7 +106,50 @@ layout: default
                 var collisionCube = new THREE.Mesh(boundingBox, wireframeMat);
                 var clock = new THREE.Clock();
                 var boundsRadius = 5;
+                modelLoader.load(
+                    '/assets/models/WindEffectsMaya.glb',
+                    function (gltf) {
+                        // Add the loaded scene to your Three.js scene'
+                        player1.add(gltf.scene);
+                        //scene.add(gltf.scene);
+                        console.log(player1);
 
+                        // Access other parts of the GLTF model if needed
+                        // gltf.animations; // Array<THREE.AnimationClip>
+                        // gltf.cameras;    // Array<THREE.Camera>
+                        // gltf.asset;      // Object
+                    },
+                    function (xhr) {
+                        // Log loading progress
+                        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+                    },
+                    function (error) {
+                        // Handle loading errors
+                        console.error('An error happened', error);
+                    }
+                );
+                textureLoader.load(
+                    '/assets/images/WindTexture.png',
+                    function (texture) {
+                        // Texture loaded successfully
+                        const material = new THREE.MeshBasicMaterial({ map: texture, transparent: true,
+                                    color: 0xffffff,
+                                    emissive: 0xff0000, // Emissive color (e.g., red glow)
+                                    emissiveIntensity: 1.0 // Intensity of the emissive light
+                        });
+                        // Assuming 'mesh' is a part of your loaded model
+                        player1.material = material;
+                        player1.material.needsUpdate = true; // Important for updating the material
+                        player1.children[0].children[0].material = material;
+                        player1.children[0].children[0].material.needsUpdate = true;
+                        player1.children[0].children[1].material = material;
+                        player1.children[0].children[1].material.needsUpdate = true;
+                    },
+                    undefined, // Optional: onProgress callback
+                    function (error) {
+                        console.error('An error occurred loading the texture:', error);
+                    }
+                );
                 //add propertiee to player
                 player1.add(cube);
 
