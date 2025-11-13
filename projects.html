@@ -25,17 +25,29 @@ layout: default
     </div>
     <div id="main" class="content-main">
         <button id='sidenav-button' class="openbtn" onclick="openNav()">☰ Open Sidebar</button>
-        <div id="3dAnims">
-            <h1>3D Animation Videos</h1>
+        <div class id="3dAnims" width="100%">
+            <h1>3D Animation Screenshots and Videos</h1>
 
             <h2>Mystic Slash Videos</h2>
             <p>My archive of videos for my mystic slash series Blender 3D animation using my own characters and assets (Ofcourse no AI used)</p>
-            <ul>
-                <li><iframe width="560" height="315" src="https://www.youtube.com/embed/k8Wiii2ESSE?si=DkqAJNFZB9SXJW5j" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                </li>        
+            <iframe width="100%" height="75%" src="https://www.youtube.com/embed/k8Wiii2ESSE?si=DkqAJNFZB9SXJW5j" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+            <h2>Images</h2>
+            <p>My archive of videos for my mystic slash series Blender 3D animation using my own characters and assets (Ofcourse no AI used)</p>
+            <ul class="itemList">
+                <li><img class="gallery-image" src="assets/images/SwiftusPoweringUp.gif" title="Magician Ivy Base"></img>
+                </li>  
+                <li><img class="gallery-image" src="assets/images/IvyRendered.png" title="Magician Ivy Rendered"></img>
+                </li>
+                <li><img class="gallery-image" src="assets/images/tanya_walk.gif" title="Magician Ivy Base"></img>
+                </li>
+                <li><img class="gallery-image" src="assets/images/TanyaBlazing.png" title="Magician Ivy Base"></img>
+                </li>
+                <li><img class="gallery-image" src="assets/images/TanyaAndCelia.png" title="Magician Ivy Base"></img>
+                </li>
+                <li><img class="gallery-image" src="assets/images/IvyBase.png" title="Magician Ivy Base"></img>
+                </li>  
             </ul>
-
-
         </div>
         <div id="threeJS">
             <h1>ThreeJS Test Project</h1>
@@ -315,6 +327,7 @@ layout: default
         document.getElementById("sidenav").style.width = "0";
         document.getElementById("main").style.marginLeft= "0";
     }
+
     </script>
 </body>
 

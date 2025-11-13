@@ -5,17 +5,23 @@
 
 
 
-
+html{
+  background-color: #FFFFFF;
+}
 
 body {
     overflow: auto;
     // margin: 0.1rem;
     padding: 0;
-    background-color: #3f3f63;
+    background-color: #64648d;
 }
 .wrapper{
     margin: auto;
     //max-width: 90vw;
+    padding: 10px;
+    background-color: #3f3f3f;
+    border-radius: 5px;
+    max-width: 670px;
 }
 .canvas-holder{
     width:80vw;
@@ -69,6 +75,7 @@ body {
   cursor: pointer;
   z-index: 10;
   background-color: #111;
+  margin: 0 5px;
   color: white;
   padding: 10px 15px;
   border: none;
@@ -82,6 +89,20 @@ body {
 .content-main {
   transition: margin-left .5s; /* If you want a transition effect */
   padding: 0.1rem;
+}
+
+.itemList{
+  display: flex;
+  overflow: auto;
+  list-style-type: none;
+}
+
+.gallery-image{
+  object-fit: contain;
+  height:300px;
+  width:300px;
+  max-width: 90vw;
+  background-color: #111;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
